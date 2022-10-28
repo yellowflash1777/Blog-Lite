@@ -21,6 +21,12 @@
         <div>
             <input type="submit" method="POST" value = "Submit">
         </div>
+        <div>
+            New User? <a href="/register">Register</a>
+        </div>
+        {% if message %}
+        <p>{{ message }}</p>
+        {% endif %}
 
     </form>
 </body>
