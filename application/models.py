@@ -3,7 +3,8 @@ from .database import db
 
 class User(db.Model):
     __tablename__ = "users"
-    username = db.Column(db.String, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     number_of_posts = db.Column(db.Integer, nullable=False, default=0)
     number_of_followers= db.Column(db.Integer, nullable=False, default=0)
