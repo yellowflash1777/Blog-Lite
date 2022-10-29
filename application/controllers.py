@@ -1,7 +1,7 @@
 
 from flask import current_app as app, redirect, render_template, request, url_for
 from .database import db
-from application.models import User
+from application.models import Post, User
 
 @app.route('/', methods=["GET", "POST"])
 def login():
@@ -37,3 +37,14 @@ def register():
 def home():
     username=request.args.get("username")
     return render_template('home.html',username=username)
+
+@app.route('/add/blog/<username>', methods=["GET", "POST"])
+def add_blog(username):
+    if request.method == "POST":
+        title=request.form.get("title")
+        content=request.form.get("content")
+        blog = Post(title=title,content=content,username=username)
+        db.session.add(blog)
+        db.session.commit()
+        return redirect(url_for('home', username=username))
+    return render_template("add_blog.html",username=username)
