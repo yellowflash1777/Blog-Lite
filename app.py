@@ -8,8 +8,13 @@ from application.database import db
 app = None
 api = None
 
-def create_app():
+UPLOAD_FOLDER = 'uploads\posts'
+
+
+
+def create_app():  
     app = Flask(__name__, template_folder="templates")
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     if os.getenv('ENV', "development") == "production":
       raise Exception("Currently no production config is setup.")
     else:

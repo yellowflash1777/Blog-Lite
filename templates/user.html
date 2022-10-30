@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{username}}'s' Profile</title>
+</head>
+<body>
+    <h1>{{username}}'s' Profile</h1>
+    <h3>My posts</h3>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Image</th>
+            <th>Time Created</th>
+            <th>No of Likes</th>
+            <th>No of Comments</th>
+        </tr>
+        {% for post in posts %}
+        <tr>
+            <td>{{post.title}}</td>
+            <td>{{post.content}}</td>
+            <td><img src="{{post.image_url}}" alt="image" width="100" height="100"></td>
+            <td>{{post.timestamp}}</td>
+            <td>{{post.number_of_likes}}</td>
+            <td>{{post.number_of_comments}}</td>
+        </tr>
+        {% endfor %}
+    
+</body>
+</html>
