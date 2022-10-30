@@ -78,3 +78,11 @@ def add_blog(username):
 def user(username):
     posts = Post.query.filter_by(username=username).all()
     return render_template("user.html", posts=posts,username=username)
+
+@app.route('/search', methods=["GET", "POST"])
+def search():
+    if request.method == "POST":
+        search=request.form.get("search")
+        users=User.query.filter(User.username.like('%'+search+'%')).all()
+        return render_template("search.html", users=users)
+    return render_template("search.html")
