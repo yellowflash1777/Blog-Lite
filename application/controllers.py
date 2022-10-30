@@ -43,6 +43,7 @@ def add_blog(username):
     if request.method == "POST":
         title=request.form.get("title")
         content=request.form.get("content")
+        username=username
         blog = Post(title=title,content=content,username=username)
         db.session.add(blog)
         db.session.commit()
