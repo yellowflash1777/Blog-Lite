@@ -46,7 +46,7 @@
             <td>
                 <a href="/post/{{post.post_id}}">View</a>
                 {% if post.username==current_user %}
-                <a href="/post/{{post.id}}/edit">Edit</a>
+                <a href="/edit/{{current_user}}/post/{{post.post_id}}">Edit</a>
                 <a href="/delete/{{current_user}}/post/{{post.post_id}}">Delete</a>
                 {% endif %}
         </tr>

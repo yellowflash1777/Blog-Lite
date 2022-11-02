@@ -107,18 +107,25 @@ def delete(username,post_id):
     return redirect(url_for('user', username=username))
 
 @app.route('/edit/<username>/post/<post_id>', methods=["GET", "POST"])
-def edit(username,post_id):
+def edit_post(username,post_id):
     if request.method == "POST":
         title=request.form.get("title")
         content=request.form.get("content")
+        image=request.files['image']
         post = Post.query.filter_by(post_id=post_id).first()
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            image_url = url_for('uploaded_file', filename=filename)
+            post.image_url=image_url
+    
         post.title = title
         post.content = content
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('user', username=username))
     post = Post.query.filter_by(post_id=post_id).first()
-    return render_template("edit.html", post=post,username=username)
+    return render_template("edit_post.html", post=post,username=username)
 
 @app.route('/delete/<username>')
 def delete_user(username):
