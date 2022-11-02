@@ -3,7 +3,7 @@ from email import message
 import os
 from flask import current_app as app, flash, redirect, render_template, request, send_from_directory, url_for
 from .database import db
-from application.models import Post, User
+from application.models import Follow, Post, User
 import datetime
 from werkzeug.utils import secure_filename
 
@@ -136,4 +136,14 @@ def delete_user(username):
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('home'))
+
+@app.route('/follow/<username>')
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    user.followers += 1
+    follow=Follow(follower=current_user,following=username)
+    db.session.add(user)
+    db.session.add(follow)
+    db.session.commit()
+    return redirect(url_for('user', username=username))
     
