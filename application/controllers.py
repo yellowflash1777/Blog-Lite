@@ -139,11 +139,16 @@ def delete_user(username):
 
 @app.route('/follow/<username>')
 def follow(username):
-    user = User.query.filter_by(username=username).first()
-    user.followers += 1
-    follow=Follow(follower=current_user,following=username)
-    db.session.add(user)
-    db.session.add(follow)
-    db.session.commit()
+    follow=Follow.query.filter_by(follower_username=current_user,followed_username=username).first()
+    if follow is None:
+        user = User.query.filter_by(username=username).first()
+        user.number_of_followers += 1
+        timestamp=datetime.datetime.now()
+        follow=Follow(follower_username=current_user,followed_username=username,timestamp=timestamp)
+        db.session.add(user)
+        db.session.add(follow)
+        db.session.commit()
     return redirect(url_for('user', username=username))
+   
+    
     

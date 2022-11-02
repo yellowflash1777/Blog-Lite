@@ -9,7 +9,7 @@
 <body>
     <h1>{{username}}'s' Profile</h1>
     {% if username!=current_user  %}
-    <form action="/follow/{{username}}" method="POST">
+    <form action="/follow/{{username}}" >
         <button type="submit">Follow</button>
     </form>
     {% else%}
