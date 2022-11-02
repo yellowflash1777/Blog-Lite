@@ -51,8 +51,9 @@ def register():
 
 @app.route('/home')
 def home():
-    username=request.args.get("username")
-    return render_template('home.html',username=username)
+    global current_user 
+    current_user=request.args.get("username")
+    return render_template('home.html',username=current_user)
 
 @app.route('/add/blog/<username>', methods=["GET", "POST"])
 def add_blog(username):
@@ -68,21 +69,39 @@ def add_blog(username):
             image_url = url_for('uploaded_file', filename=filename)
         else:
             image_url = None
+        user = User.query.filter_by(username=username).first()
+        user.number_of_posts += 1
         post = Post(title=title,content=content,username=username,timestamp=timestamp,image_url=image_url)        
         db.session.add(post)
+        db.session.add(user)
         db.session.commit()
         return redirect(url_for('home', username=username))
     return render_template("add_blog.html",username=username)
 
 @app.route('/user/<username>')
 def user(username):
+    
     posts = Post.query.filter_by(username=username).all()
-    return render_template("user.html", posts=posts,username=username)
+    user = User.query.filter_by(username=username).first()
+    return render_template("user.html", posts=posts,username=username,current_user=current_user,user=user)
 
 @app.route('/search', methods=["GET", "POST"])
 def search():
+    
+    
     if request.method == "POST":
         search=request.form.get("search")
         users=User.query.filter(User.username.like('%'+search+'%')).all()
-        return render_template("search.html", users=users)
+        return render_template("search.html", users=users,username=current_user)
     return render_template("search.html")
+
+
+@app.route('/delete/<username>/post/<post_id>')
+def delete(username,post_id):
+    post = Post.query.filter_by(post_id=post_id).first()
+    user = User.query.filter_by(username=username).first()
+    user.number_of_posts -= 1
+    db.session.delete(post)
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('user', username=username))

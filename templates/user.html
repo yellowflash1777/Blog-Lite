@@ -8,6 +8,16 @@
 </head>
 <body>
     <h1>{{username}}'s' Profile</h1>
+    {% if username!=current_user  %}
+    <form action="/follow/{{username}}" method="POST">
+        <button type="submit">Follow</button>
+    </form>
+    {% endif %}
+    <h2>Followers : {{user.number_of_followers}}</h2>
+    <h2>Following : {{user.number_of_following}}</h2>
+    <h2>Posts : {{user.number_of_posts}}</h2>
+
+    {% if posts %}
     <h3>My posts</h3>
     <table>
         <tr>
@@ -17,6 +27,7 @@
             <th>Time Created</th>
             <th>No of Likes</th>
             <th>No of Comments</th>
+            <th>Action</th>
         </tr>
         {% for post in posts %}
         <tr>
@@ -26,8 +37,18 @@
             <td>{{post.timestamp}}</td>
             <td>{{post.number_of_likes}}</td>
             <td>{{post.number_of_comments}}</td>
+            <td>
+                <a href="/post/{{post.post_id}}">View</a>
+                {% if post.username==current_user %}
+                <a href="/post/{{post.id}}/edit">Edit</a>
+                <a href="/delete/{{current_user}}/post/{{post.post_id}}">Delete</a>
+                {% endif %}
         </tr>
         {% endfor %}
+    </table>
+    {% else %}
+    <h3>No posts yet</h3>
+    {% endif %}
     
 </body>
 </html>

@@ -19,10 +19,16 @@
             <th>Username</th>
         </tr>
         {% for user in users %}
+        {% if user.username != username %}
         <tr>
             <td><a href='/user/{{user.username}}'>{{user.username}}</a></td>
-            
+            <td><a href='/follow/{{user.username}}'>Follow</a></td>            
         </tr>
+        {% else %}
+        <tr>
+            <td><a href='/user/{{user.username}}'>{{user.username}}</a></td>
+        </tr>
+        {% endif %}
         {% endfor %}
     </table>
     {% endif %}
