@@ -104,7 +104,7 @@ def delete(username,post_id):
     db.session.delete(post)
     db.session.add(user)
     db.session.commit()
-    return redirect(url_for('user', username=username))
+    return redirect(url_for('home'))
 
 @app.route('/edit/<username>/post/<post_id>', methods=["GET", "POST"])
 def edit_post(username,post_id):
