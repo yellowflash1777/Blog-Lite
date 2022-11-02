@@ -105,3 +105,28 @@ def delete(username,post_id):
     db.session.add(user)
     db.session.commit()
     return redirect(url_for('user', username=username))
+
+@app.route('/edit/<username>/post/<post_id>', methods=["GET", "POST"])
+def edit(username,post_id):
+    if request.method == "POST":
+        title=request.form.get("title")
+        content=request.form.get("content")
+        post = Post.query.filter_by(post_id=post_id).first()
+        post.title = title
+        post.content = content
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('user', username=username))
+    post = Post.query.filter_by(post_id=post_id).first()
+    return render_template("edit.html", post=post,username=username)
+
+@app.route('/delete/<username>')
+def delete_user(username):
+    user = User.query.filter_by(username=username).first()
+    posts = Post.query.filter_by(username=username).all()
+    for post in posts:
+        db.session.delete(post)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('home'))
+    
