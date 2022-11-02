@@ -12,6 +12,12 @@
     <form action="/follow/{{username}}" method="POST">
         <button type="submit">Follow</button>
     </form>
+    {% else%}
+    <form action="/edit" method="GET">
+        <button type="submit">Edit</button>
+    </form>
+        <p style="color: red;"><a href="/delete/{{username}}">delete user</a></p>
+
     {% endif %}
     <h2>Followers : {{user.number_of_followers}}</h2>
     <h2>Following : {{user.number_of_following}}</h2>
@@ -49,6 +55,9 @@
     {% else %}
     <h3>No posts yet</h3>
     {% endif %}
-    
+    <h1><a href="/home">Home</a><h1>
+     
+    <p style="color: red;"><a href="/delete/{{username}}">delete user</a></p>
+
 </body>
 </html>
