@@ -19,8 +19,8 @@
        <a style="color: red;" href="/delete/{{username}}">delete user</a>
 
     {% endif %}
-    <h2>Followers : {{user.number_of_followers}}</h2>
-    <h2>Following : {{user.number_of_following}}</h2>
+    <h2><a href="/{{username}}/followers">Followers </a>: {{user.number_of_followers}}</h2>
+    <h2><a href="/{{username}}/following">Following </a>: {{user.number_of_following}}</h2>
     <h2>Posts : {{user.number_of_posts}}</h2>
 
     {% if posts %}

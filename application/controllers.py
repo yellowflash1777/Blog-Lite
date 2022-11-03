@@ -164,3 +164,31 @@ def follow(username):
         db.session.add(follow)
         db.session.commit()
     return redirect(url_for('user', username=username))
+
+
+@app.route('/unfollow/<username>')
+def unfollow(username):
+    follow = Follow.query.filter_by(
+        follower_username=current_user.username, followed_username=username).first()
+    if follow is not None:
+        user = User.query.filter_by(username=username).first()
+        current_user.number_of_following -= 1
+        user.number_of_followers -= 1
+        db.session.add(user)
+        db.session.add(current_user)
+        db.session.delete(follow)
+        db.session.commit()
+    return redirect(url_for('user', username=username))
+
+
+@app.route('/<username>/followers')
+def followers(username):
+    follows = Follow.query.filter_by(followed_username=username).all()
+    return render_template('followers.html', follows=follows, username=username)
+
+
+@app.route('/<username>/following')
+def following(username):
+    print(username)
+    follows = Follow.query.filter_by(follower_username=username).all()
+    return render_template('following.html', follows=follows, username=username)
