@@ -90,7 +90,13 @@ def user(username):
 
     posts = Post.query.filter_by(username=username).all()
     user = User.query.filter_by(username=username).first()
-    return render_template("user.html", posts=posts, username=username, current_user=current_user.username, user=user)
+    already_follow=False
+    follow = Follow.query.filter_by(
+        follower_username=current_user.username, followed_username=username).first()
+    if follow is not None:
+        already_follow=True
+
+    return render_template("user.html", posts=posts, username=username,already_follow=already_follow, current_user=current_user.username, user=user)
 
 
 @app.route('/search', methods=["GET", "POST"])
@@ -165,7 +171,7 @@ def follow(username):
         db.session.commit()
     return redirect(url_for('user', username=username))
 
-
+#yet to complete
 @app.route('/unfollow/<username>')
 def unfollow(username):
     follow = Follow.query.filter_by(

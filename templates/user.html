@@ -9,9 +9,15 @@
 <body>
     <h1>{{username}}'s' Profile</h1>
     {% if username!=current_user  %}
+    {% if already_follow==False %}
     <form action="/follow/{{username}}" >
         <button type="submit">Follow</button>
     </form>
+    {%else%}
+    <form action="/unfollow/{{username}}" >
+        <button type="submit">UnFollow</button>
+    </form>
+    {% endif%}
     {% else%}
     <form action="/edit" method="GET">
         <button type="submit">Edit</button>
