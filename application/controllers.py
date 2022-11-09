@@ -62,7 +62,7 @@ def home():
     for follow in follows:
         following_list.append(follow.followed_username)
     print(following_list)
-    posts=Post.query.filter(Post.username.in_(following_list)).all()
+    posts=Post.query.filter(Post.username.in_(following_list)).all().order_by(Post.timestamp.desc())
     return render_template('home.html', username=current_user.username, posts=posts)
 
 
