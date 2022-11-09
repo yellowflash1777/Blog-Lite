@@ -57,7 +57,13 @@ def register():
 
 @app.route('/home')
 def home():
-    return render_template('home.html', username=current_user.username)
+    following_list=[]
+    follows = Follow.query.filter_by(follower_username=current_user.username).all()
+    for follow in follows:
+        following_list.append(follow.followed_username)
+    print(following_list)
+    posts=Post.query.filter(Post.username.in_(following_list)).all()
+    return render_template('home.html', username=current_user.username, posts=posts)
 
 
 @app.route('/add/blog/<username>', methods=["GET", "POST"])
