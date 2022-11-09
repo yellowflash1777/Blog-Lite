@@ -42,6 +42,7 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
+        
         user = User.query.filter_by(username=username).first()
         if user is None:
             user = User(username=username, password=password)
@@ -62,7 +63,7 @@ def home():
     for follow in follows:
         following_list.append(follow.followed_username)
     print(following_list)
-    posts=Post.query.filter(Post.username.in_(following_list)).all().order_by(Post.timestamp.desc())
+    posts=Post.query.filter(Post.username.in_(following_list)).order_by(Post.timestamp.desc()).all()
     return render_template('home.html', username=current_user.username, posts=posts)
 
 
