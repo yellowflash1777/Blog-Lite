@@ -3,7 +3,7 @@ from email import message
 import os
 from flask import current_app as app, flash, redirect, render_template, request, send_from_directory, url_for
 from .database import db
-from application.models import Follow, Post, User
+from application.models import Follow, Like, Post, User
 import datetime
 from werkzeug.utils import secure_filename
 
@@ -59,12 +59,17 @@ def register():
 @app.route('/home')
 def home():
     following_list=[]
+    liked_list=[]
     follows = Follow.query.filter_by(follower_username=current_user.username).all()
     for follow in follows:
         following_list.append(follow.followed_username)
     print(following_list)
     posts=Post.query.filter(Post.username.in_(following_list)).order_by(Post.timestamp.desc()).all()
-    return render_template('home.html', username=current_user.username, posts=posts)
+    likes = Like.query.filter_by(username=current_user.username).all()
+    for like in likes:
+        liked_list.append(like.post_id)
+
+    return render_template('home.html', username=current_user.username, posts=posts , liked_list=liked_list)
 
 
 @app.route('/add/blog/<username>', methods=["GET", "POST"])
@@ -205,3 +210,27 @@ def following(username):
     print(username)
     follows = Follow.query.filter_by(follower_username=username).all()
     return render_template('following.html', follows=follows, username=username)
+
+@app.route('/like/<post_id>/<username>')
+def like(post_id,username):
+    like=Like.query.filter_by(post_id=post_id,username=username).first()
+    if like is None:
+        post = Post.query.filter_by(post_id=post_id).first()
+        post.number_of_likes += 1
+        timestamp=datetime.datetime.now()
+        like=Like(post_id=post_id,username=username,timestamp=timestamp)
+        db.session.add(like)
+        db.session.add(post)
+        db.session.commit()
+    return redirect(url_for('home', username=username))
+
+@app.route('/unlike/<post_id>/<username>')
+def unlike(post_id,username):
+    like=Like.query.filter_by(post_id=post_id,username=username).first()
+    if like is not None:
+        post = Post.query.filter_by(post_id=post_id).first()
+        post.number_of_likes -= 1
+        db.session.add(post)
+        db.session.delete(like)
+        db.session.commit()
+    return redirect(url_for('home', username=username))
