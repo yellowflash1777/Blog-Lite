@@ -3,7 +3,7 @@ from email import message
 import os
 from flask import current_app as app, flash, redirect, render_template, request, send_from_directory, url_for
 from .database import db
-from application.models import Follow, Like, Post, User
+from application.models import Comment, Follow, Like, Post, User
 import datetime
 from werkzeug.utils import secure_filename
 
@@ -234,3 +234,18 @@ def unlike(post_id,username):
         db.session.delete(like)
         db.session.commit()
     return redirect(url_for('home', username=username))
+
+@app.route('/comment/<post_id>/<username>',methods=["GET","POST"])
+def comment(post_id,username):
+    comments=Comment.query.filter_by(post_id=post_id).all()
+    if request.method == "POST":
+        comment=request.form.get("comment")
+        timestamp=datetime.datetime.now()
+        comment=Comment(post_id=post_id,username=username,comment=comment,timestamp=timestamp)
+        post=Post.query.filter_by(post_id=post_id).first()
+        post.number_of_comments+=1
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('home',username=username))
+    
+    return render_template('comment.html',username=username,comments=comments)
