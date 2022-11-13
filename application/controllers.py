@@ -63,13 +63,14 @@ def home():
     follows = Follow.query.filter_by(follower_username=current_user.username).all()
     for follow in follows:
         following_list.append(follow.followed_username)
-    print(following_list)
+    
     posts=Post.query.filter(Post.username.in_(following_list)).order_by(Post.timestamp.desc()).all()
     likes = Like.query.filter_by(username=current_user.username).all()
     for like in likes:
         liked_list.append(like.post_id)
+    timestamp = datetime.datetime.now()
 
-    return render_template('index.html', username=current_user.username, posts=posts , liked_list=liked_list)
+    return render_template('index.html', username=current_user.username, posts=posts , liked_list=liked_list , timestamp=timestamp)
 
 
 @app.route('/add/blog/<username>', methods=["GET", "POST"])

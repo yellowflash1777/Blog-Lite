@@ -3,19 +3,40 @@
 {% block username %}
 {{username}}
 {% endblock %}
+{%block style%}
+a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:active { text-decoration: none; }
+{%endblock%}
 {% block content %}
 <h1>My feed</h1>
+<div class="row row-cols-3 row-cols-md-5 g-4">
 {% for post in posts %}
-<div class="card" style="width: 18rem;">
-    <img src="{{post.image_url}}" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">{{post.title}}</h5>
-      <p class="card-text">{{post.content}}</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+
+
+
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="card-author"><a href="/user/{{post.username}}" class="card-link link-secondary">{{post.username}}</a></h5>
+      </div>
+      <img src="{{post.image_url}}"  height="300" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{post.title}}</h5>
+        <h7 class="card-text">{{post.content}}</h7><br>
+        <h7 class="card-text">Likes <a href="#" class="card-link link-primary">{{post.number_of_likes}}</a></h7>
+        <h7 class="card-text">Comments <a href="#" class="card-link link-success">{{post.number_of_comments}}</a></h7>
+        <button type="button" class="btn btn-outline-success">Success</button>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">Posted {{timestamp - post.timestamp}} ago</small>
+      </div>
     </div>
   </div>
-{% endfor %}
+  {% endfor %}
+ </div>
+
 
 {% endblock %}
-
 
