@@ -69,7 +69,7 @@ def home():
     for like in likes:
         liked_list.append(like.post_id)
 
-    return render_template('home.html', username=current_user.username, posts=posts , liked_list=liked_list)
+    return render_template('index.html', username=current_user.username, posts=posts , liked_list=liked_list)
 
 
 @app.route('/add/blog/<username>', methods=["GET", "POST"])
