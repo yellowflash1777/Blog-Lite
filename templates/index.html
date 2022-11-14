@@ -11,7 +11,7 @@ a:active { text-decoration: none; }
 {%endblock%}
 {% block content %}
 <h1>My feed</h1>
-<div class="row row-cols-3 row-cols-md-5 g-4">
+<div class="row row-cols-3 row-cols-md-5 g-2">
 {% for post in posts %}
 
 
@@ -27,7 +27,14 @@ a:active { text-decoration: none; }
         <h7 class="card-text">{{post.content}}</h7><br>
         <h7 class="card-text">Likes <a href="#" class="card-link link-primary">{{post.number_of_likes}}</a></h7>
         <h7 class="card-text">Comments <a href="#" class="card-link link-success">{{post.number_of_comments}}</a></h7>
-        <button type="button" class="btn btn-outline-success">Success</button>
+        {% if post.post_id in liked_list %}
+        <a href="/unlike/{{post.post_id}}/{{username}}"><button type="button" class="btn btn-outline-danger">Unlike</button></a>
+        
+        {% else %}
+        <a href="/like/{{post.post_id}}/{{username}}"><button type="button" class="btn btn-outline-success">Like</button></a>
+        {% endif %}
+        <a href="/comment/{{post.post_id}}/{{username}}"><button type="button" class="btn btn-outline-primary">AddComment</button></a>
+
       </div>
       <div class="card-footer">
         <small class="text-muted">Posted {{timestamp - post.timestamp}} ago</small>
