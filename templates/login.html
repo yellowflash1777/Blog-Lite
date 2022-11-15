@@ -1,30 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock title %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <style>{% block style %}{% endblock style %}</style>
-</head>
+    <link
+      rel="stylesheet"
+      href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css"
+    />
 
-<body>
-<div class="container mb-3 py-4">
-    <h1 class="text-center">Log in</h1>
-    <form method="post" action="/contact">
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Email address</label>
+    <title>Log In | Prashant's Store</title>
+  </head>
+  <body>
+    <section class="pb-4">
+      <div class="bg-white border rounded-5">
+        <section
+          class="w-100 px-4 py-5 vh-100 bg-image"
+          style="
+            background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');
+            border-radius: 0.5rem 0.5rem 0 0;
+          "
+        >
+          <style>
+            .gradient-custom-3 {
+              /* fallback for old browsers */
+              background: #84fab0;
+
+              /* Chrome 10-25, Safari 5.1-6 */
+              background: -webkit-linear-gradient(
+                to right,
+                rgba(132, 250, 176, 0.5),
+                rgba(143, 211, 244, 0.5)
+              );
+
+              /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+              background: linear-gradient(
+                to right,
+                rgba(132, 250, 176, 0.5),
+                rgba(143, 211, 244, 0.5)
+              );
+            }
+
+            .gradient-custom-4 {
+              /* fallback for old browsers */
+              background: #84fab0;
+
+              /* Chrome 10-25, Safari 5.1-6 */
+              background: -webkit-linear-gradient(
+                to right,
+                rgba(132, 250, 176, 1),
+                rgba(143, 211, 244, 1)
+              );
+
+              /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+              background: linear-gradient(
+                to right,
+                rgba(132, 250, 176, 1),
+                rgba(143, 211, 244, 1)
+              );
+            }
+          </style>
+          <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+            <div class="container h-100">
+              <div
+                class="row d-flex justify-content-center align-items-center h-100"
+              >
+                <div class="col-12 col-md-9 col-lg-7 col-xl-7">
+                  <div class="card" style="border-radius: 15px">
+                    <div class="card-body p-5">
+                      <h2 class="text-uppercase text-center mb-5">
+                        Log in account
+                      </h2>
+
+                      <form method="post" action="/">
+                        <div class="form-floating form-outline mb-2">
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            placeholder="username"
+                          />
+                          <label for="floatingInput">Username</label>
+                        </div>
+                        <div class="form-floating form-outline mb-2">
+                          <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Password"
+                          />
+                          <label for="floatingPassword">Password</label>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                          <button
+                            type="submit"
+                            class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
+                          >
+                            Login
+                          </button>
+                        </div>
+
+                        <p class="text-center text-muted mt-5 mb-0">
+                          Don't have an account?
+                          <a href="/register" class="fw-bold text-body"
+                            ><u>Sign Up</u></a
+                          >
+                        </p>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
-          </div>
-    
-    <button class="btn btn-primary" type="submit">Submit</button>
-</form>
-</div>
-</body>
+        </section>
+      </div>
+    </section>
+  </body>
+</html>
