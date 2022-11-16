@@ -1,4 +1,4 @@
-from flask_login import UserMixin
+
 from .database import db
 
 
@@ -12,7 +12,7 @@ class User(db.Model):
     number_of_following = db.Column(db.Integer, nullable=False, default=0)
 
 
-class Post(db.Model,UserMixin):
+class Post(db.Model):
     __tablename__ = "posts"
     post_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, db.ForeignKey(
