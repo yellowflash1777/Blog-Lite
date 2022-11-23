@@ -1,37 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block title %}Add Post{% endblock %}
+{% block style%}
+<link
+      rel="stylesheet"
+      href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css"
+    />
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Blog</title>
-</head>
-
-<body>
-    <h1>Add Blog</h1>
-    <form action="/add/blog/{{username}}" method="POST" enctype=multipart/form-data>
-        <div>
-            <label>Title</label>
-            <input type="text" name="title" required />
-        </div>
+{% endblock %}
+{% block username %}
+{{username}}
+{% endblock %}
+{% block content %}
+<section class="pb-4">
+ 
+      <section
+        class="w-100 px-4 py-5 vh-100 "
         
-        <div>
-            <label>Content:</label>
-            <input type="text" name="content"  />
-        </div>
-        <div>
-            <label>Add Image</label>
-            <input type="file" name="image"  />
-        </div>
-        <div>
-            <input type="submit" method="POST" value = "Submit">
-        </div>
-        {% if message %}
-        <p>{{ message }}</p>
-        {% endif %}
+      >
+<div class="container h-100">
+    <div
+      class="row d-flex justify-content-center align-items-center h-100"
+    >
+      <div class="col-12 col-md-9 col-lg-7 col-xl-7">
+        <div class="card" style="border-radius: 15px">
+          <div class="card-body p-5">
+            <h2 class="text-uppercase text-center mb-5">
+              Add Post
+            </h2>
 
-    </form>
-</body>
+            <form method="post" action="//add/blog/{{username}}">
+              <div class="form-floating form-outline mb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="title"
+                    placeholder="Title"
+                  required
+                />
+                <label for="floatingInput">Title</label>
+              </div>
+              <div class="form-floating form-outline mb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="content"
+                  name="content"
+                  placeholder="Content"
+                  
+                />
+                <label for="floatingInput">Content</label>
+              </div>
+              <div class="input-group mb-3">
+                <input type="file" class="form-control"  name="image" id="inputGroupFile02">
+                <label class="input-group-text" for="inputGroupFile02">Upload Image</label>
+              </div>
 
-</html>
+              <div class="d-flex justify-content-center">
+                <button
+                  type="submit"
+                  method="POST"
+                  class="btn btn-primary  btn-lg "
+                >
+                  Add
+                </button>
+              </div>
+
+            
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
