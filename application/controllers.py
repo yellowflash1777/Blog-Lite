@@ -73,7 +73,7 @@ def home():
     return render_template('index.html', username=current_user.username, posts=posts , liked_list=liked_list , timestamp=timestamp)
 
 
-@app.route('/add/blog/<username>', methods=["GET", "POST"])
+@app.route('/addblog/<username>', methods=["GET", "POST"])
 def add_blog(username):
     if request.method == "POST":
         title = request.form.get("title")
