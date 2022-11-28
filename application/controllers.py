@@ -109,7 +109,7 @@ def user(username):
     if follow is not None:
         already_follow=True
 
-    return render_template("user.html", posts=posts, username=username,already_follow=already_follow, current_user=current_user.username, user=user)
+    return render_template("user3.html", posts=posts, username=username,already_follow=already_follow, current_user=current_user.username, user=user)
 
 
 @app.route('/search', methods=["GET", "POST"])
