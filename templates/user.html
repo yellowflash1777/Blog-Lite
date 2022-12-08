@@ -19,7 +19,7 @@
     </form>
     {% endif%}
     {% else%}
-    <form action="/edit" method="GET">
+    <form action="/edit/{{current_user}}" method="GET">
         <button type="submit">Edit</button>
     </form>
        <a style="color: red;" href="/delete/{{username}}">delete user</a>

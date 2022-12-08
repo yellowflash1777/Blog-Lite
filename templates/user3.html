@@ -1,5 +1,8 @@
 {% extends 'base.html' %} {% block title %}My Profile{% endblock %} {% block
-style%} {% endblock %} {% block username %} {{current_user}} {% endblock %} {% block
+style%} a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:active { text-decoration: none; }{% endblock %} {% block username %} {{current_user}} {% endblock %} {% block
 content %}
 <section class="h-100 gradient-custom-2">
   <div class="container py-5 h-100">
@@ -17,7 +20,7 @@ content %}
                 class="img-fluid img-thumbnail mt-4 mb-2"
                 style="width: 150px; z-index: 1"
               />
-              
+              {% if username!=current_user  %}
               {% if already_follow==False %}
              
                 <button
@@ -25,7 +28,7 @@ content %}
                 class="btn btn-outline-success"
                 data-mdb-ripple-color="dark"
                 style="z-index: 1">
-                <a href="/follow/{{username}}">
+                <a href="/follow/{{username}}" class="link-success">
                 Follow</a>
               </button>
               
@@ -39,12 +42,22 @@ content %}
                 data-mdb-ripple-color="dark"
                 style="z-index: 1"
               >
-              <a href="/unfollow/{{username}}">
+              <a href="/unfollow/{{username}}"  class="link-danger">
                 Unfollow</a>
               </button>
               
               {% endif%}
-              
+              {% else%}
+              <button
+              type="button"
+              class="btn btn-outline-dark"
+              data-mdb-ripple-color="dark"
+              style="z-index: 1"
+            >
+            <a class="link-dark" href="/edit/{{current_user}}">
+              Edit Profile</a>
+            </button>
+              {% endif%}
             </div>
             <div class="ms-3" style="margin-top: 130px">
               <h5>{{username}}</h5>
