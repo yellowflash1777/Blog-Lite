@@ -33,11 +33,11 @@ CORS(app, support_credentials=True)
 from application.controllers import *
 
 #Import restful controllers
-from application.api import UserAPI,PostAPI,CommentAPI,LikeAPI,FollowAPI
-
+from application.api import FeedAPI, UserAPI,PostAPI
 # Add the resources to the api
 api.add_resource(UserAPI,'/api/user', '/api/user/<int:user_id>')
 api.add_resource(PostAPI,'/api/post', '/api/post/<int:post_id>')
+api.add_resource(FeedAPI,'/api/feed/<string:username>')
 
 if __name__ == '__main__':
   # Run the Flask app

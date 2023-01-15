@@ -45,9 +45,11 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        
+        confirm_password = request.form.get("repassword")
         user = User.query.filter_by(username=username).first()
-        if user is None:
+        if user is None :
+            if password != confirm_password:
+                return render_template("register.html", message="Passwords do not match")
             user = User(username=username, password=password)
             db.session.add(user)
             db.session.commit()
@@ -57,6 +59,7 @@ def register():
         else:
             return render_template("register.html", message="Username already exists")
     return render_template("register.html")
+
 
 
 @app.route('/home')
@@ -122,7 +125,12 @@ def search():
     if request.method == "POST":
         search = request.form.get("search")
         users = User.query.filter(User.username.like('%'+search+'%')).all()
-        return render_template("search.html", users=users, username=current_user.username)
+        following_list=[]
+        follows = Follow.query.filter_by(follower_username=current_user.username).all()
+        for follow in follows:
+            following_list.append(follow.followed_username)
+
+        return render_template("search.html", users=users, username=current_user.username, following_list=following_list)
     return render_template("search.html")
 
 
@@ -204,7 +212,7 @@ def follow(username):
         db.session.add(current_user)
         db.session.add(follow)
         db.session.commit()
-        db.session.refresh(user)
+        
     return redirect(url_for('user', username=username))
 
 #yet to complete

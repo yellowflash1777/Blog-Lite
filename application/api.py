@@ -63,7 +63,6 @@ class UserAPI(Resource):
         args=create_user_parser.parse_args()
         user=User.query.filter_by(user_id=user_id).first()
         if user:
-            user.username=args['username']
             user.password=args['password']
             db.session.commit()
             return user
@@ -74,6 +73,9 @@ class UserAPI(Resource):
     def delete(self,user_id):
         user=User.query.filter_by(user_id=user_id).first()
         if user:
+            post=Post.query.filter_by(username=user.username).all()
+            for p in post:
+                db.session.delete(p)
             db.session.delete(user)
             db.session.commit()
             return 'Succefully Deleted',200
@@ -112,6 +114,7 @@ class PostAPI(Resource):
         args=create_post_parser.parse_args()
         post=Post.query.filter_by(post_id=post_id).first()
         if post:
+            post.image_url=args['image_url']
             post.title=args['title']
             post.content=args['content']
             db.session.commit()
@@ -136,7 +139,8 @@ class PostAPI(Resource):
         username=args['username']
         title=args['title']
         content=args['content']
-        post=Post(username=username,title=title,content=content)
+        image_url=args['image_url']
+        post=Post(username=username,title=title,content=content,image_url=image_url)
         db.session.add(post)
         db.session.commit()
         return post
@@ -145,16 +149,14 @@ class PostAPI(Resource):
 
 
 
-       
+class FeedAPI(Resource):
 
-class CommentAPI(Resource):
-    def get(self):
-        return {'hello': 'world'}
-
-class LikeAPI(Resource):
-    def get(self):
-        return {'hello': 'world'}
-
-class FollowAPI(Resource):
-    def get(self):
-        return {'hello': 'world'}
+    @cross_origin(supports_credentials=True)
+    @marshal_with(post_fields)
+    def get(self,username):
+        posts=Post.query.filter_by(username=username).all()
+        if posts:
+            return posts
+        else:
+            raise NotFoundError(status_code=404)
+        

@@ -36,8 +36,13 @@
         {% if user.username != username %}
         <tr>
             <td><a href='/user/{{user.username}}' align="center">{{user.username}}</a></td>
-            <td><a href='/follow/{{user.username}}' align="center">Follow</a></td>            
-        </tr>
+          {% if user.username in following_list %}
+            <td><a href='/unfollow/{{user.username}}' class="link-danger" align="center">Unfollow</a></td>
+          {% else %}
+            <td><a href='/follow/{{user.username}}'  class="link-success" align="center">Follow</a></td>            
+          {% endif %}
+        
+          </tr>
         {% else %}
         <tr>
             <td><a href='/user/{{user.username}}'>{{user.username}}</a></td>
