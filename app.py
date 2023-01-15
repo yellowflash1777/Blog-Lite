@@ -4,6 +4,7 @@ from flask_restful import Api
 from application import config
 from application.config import LocalDevelopmentConfig
 from application.database import db
+from flask_cors import CORS
 
 app = None
 api = None
@@ -26,12 +27,17 @@ def create_app():
     return app,api
 
 app ,api= create_app()
+CORS(app, support_credentials=True)
 
 # Import all the controllers so they are loaded
 from application.controllers import *
 
 #Import restful controllers
-#from application.api import CourseAPI,StudentAPI,EnrollmentAPI
+from application.api import UserAPI,PostAPI,CommentAPI,LikeAPI,FollowAPI
+
+# Add the resources to the api
+api.add_resource(UserAPI,'/api/user', '/api/user/<int:user_id>')
+api.add_resource(PostAPI,'/api/post', '/api/post/<int:post_id>')
 
 if __name__ == '__main__':
   # Run the Flask app
