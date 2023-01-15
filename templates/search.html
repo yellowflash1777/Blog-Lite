@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-    
+{% extends 'base.html' %}
+{% block title %}SEARCH{% endblock %}
+{% block style%}
 <link
-rel="stylesheet"
-href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css"
-/>
+      rel="stylesheet"
+      href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css"
+    />
 
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
-</head>
-<body>
+{% endblock %}
+{% block username %}
+{{username}}
+{% endblock %}
+{% block content %}
     <section
     class="w-100 px-4 py-5 vh-100 "
     
@@ -49,6 +46,11 @@ href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/
         {% endfor %}
     </table>
     {% endif %}
-    <h4 align="center"><a href="/home">Home</a><h4>
-</body>
-</html>
+    
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+{% endblock %}

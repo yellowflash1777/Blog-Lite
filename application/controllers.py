@@ -7,7 +7,10 @@ from application.models import Comment, Follow, Like, Post, User
 import datetime
 from werkzeug.utils import secure_filename
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg', 'gif'}
+
+
+
 
 
 def allowed_file(filename):
@@ -104,12 +107,13 @@ def user(username):
     posts = Post.query.filter_by(username=username).all()
     user = User.query.filter_by(username=username).first()
     already_follow=False
+    timestamp = datetime.datetime.now()
     follow = Follow.query.filter_by(
         follower_username=current_user.username, followed_username=username).first()
     if follow is not None:
         already_follow=True
 
-    return render_template("user3.html", posts=posts, username=username,already_follow=already_follow, current_user=current_user.username, user=user)
+    return render_template("user3.html", posts=posts, username=username,already_follow=already_follow, current_user=current_user.username, user=user , timestamp=timestamp)
 
 
 @app.route('/search', methods=["GET", "POST"])
@@ -165,6 +169,24 @@ def delete_user(username):
     db.session.commit()
     return redirect(url_for('home'))
 
+@app.route('/edit/<username>', methods=["GET", "POST"])
+def edit_user(username):
+    if request.method == "POST":
+        password1 = request.form.get("oldpassword")
+        password2 = request.form.get("newpassword")
+        user = User.query.filter_by(username=username).first()
+        password0 = user.password
+        if password1 == password0:
+        
+            user.password = password2
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('home', username=username))
+        else:
+            return redirect(url_for('edit_user', username=username))
+    user = User.query.filter_by(username=username).first()
+    return render_template("edit_user.html", user=user, username=username)
+
 
 @app.route('/follow/<username>')
 def follow(username):
@@ -182,6 +204,7 @@ def follow(username):
         db.session.add(current_user)
         db.session.add(follow)
         db.session.commit()
+        db.session.refresh(user)
     return redirect(url_for('user', username=username))
 
 #yet to complete
@@ -250,3 +273,18 @@ def comment(post_id,username):
         return redirect(url_for('home',username=username))
     
     return render_template('comment.html',username=username,comments=comments)
+
+@app.route('/delete_comment/<post_id>/<username>/<comment_id>')
+def delete_comment(post_id,username,comment_id):
+    comment=Comment.query.filter_by(comment_id=comment_id).first()
+    post=Post.query.filter_by(post_id=post_id).first()
+    post.number_of_comments-=1
+    db.session.delete(comment)
+    db.session.add(post)
+    db.session.commit()
+    return redirect(url_for('home',username=username))
+
+@app.route('/likes/<post_id>/<username>')
+def likes(post_id,username):
+    likes=Like.query.filter_by(post_id=post_id).all()
+    return render_template('likes.html',likes=likes,username=username)

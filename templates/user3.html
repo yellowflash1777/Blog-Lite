@@ -20,6 +20,7 @@ content %}
                 class="img-fluid img-thumbnail mt-4 mb-2"
                 style="width: 150px; z-index: 1"
               />
+
               {% if username!=current_user  %}
               {% if already_follow==False %}
              
@@ -71,60 +72,44 @@ content %}
                 <p class="small text-muted mb-0">Posts</p>
               </div>
               <div class="px-3">
-                <p class="mb-1 h5">{{user.number_of_followers}}</p>
+                <p class="mb-1 h5"><a href='/{{username}}/followers' >{{user.number_of_followers}}</a></p>
                 <p class="small text-muted mb-0">Followers</p>
               </div>
               <div>
-                <p class="mb-1 h5">{{user.number_of_following}}</p>
+                <p class="mb-1 h5"><a href='/{{username}}/following' >{{user.number_of_following}}</a></p>
                 <p class="small text-muted mb-0">Following</p>
               </div>
             </div>
           </div>
+         
+        
           <div class="card-body p-4 text-black">
-            <div class="mb-5">
-              <p class="lead fw-normal mb-1">About</p>
-              <div class="p-4" style="background-color: #f8f9fa">
-                <p class="font-italic mb-1">Web Developer</p>
-                <p class="font-italic mb-1">Lives in New York</p>
-                <p class="font-italic mb-0">Photographer</p>
+            <div class="row row-cols-3 row-cols-md-2 g-2">
+                {% for post in posts %}
+                <div class="col" align="center">
+                  <div class="card h-100">
+                    
+                    <img src="{{post.image_url}}"  height="300" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">{{post.title}}</h5>
+                      <h7 class="card-text">{{post.content}}</h7><br>
+                      <h7 class="card-text">Likes <a href="/likes/{{post.post_id}}/{{username}}" class="card-link link-primary">{{post.number_of_likes}}</a></h7>
+                      <h7 class="card-text">Comments <a href="/comment/{{post.post_id}}/{{username}}" class="card-link link-success">{{post.number_of_comments}}</a></h7>
+                      {% if post.username==current_user %}
+                      <a href="/edit/{{username}}/post/{{post.post_id}}"><button type="button" class="btn btn-outline-success">Edit</button></a>
+                      <a href="/delete/{{username}}/post/{{post.post_id}}"><button type="button" class="btn btn-outline-danger">Delete</button></a>
+                      {% endif %}
+                    </div>
+                    <div class="card-footer">
+                      <small class="text-muted">Posted {{timestamp - post.timestamp}} ago</small>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
               </div>
+             
             </div>
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <p class="lead fw-normal mb-0">Recent photos</p>
-              <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
-            </div>
-            <div class="row g-2">
-              <div class="col mb-2">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
-                  alt="image 1"
-                  class="w-100 rounded-3"
-                />
-              </div>
-              <div class="col mb-2">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
-                  alt="image 1"
-                  class="w-100 rounded-3"
-                />
-              </div>
-            </div>
-            <div class="row g-2">
-              <div class="col">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
-                  alt="image 1"
-                  class="w-100 rounded-3"
-                />
-              </div>
-              <div class="col">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
-                  alt="image 1"
-                  class="w-100 rounded-3"
-                />
-              </div>
-            </div>
+           
           </div>
         </div>
       </div>
